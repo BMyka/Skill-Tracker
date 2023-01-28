@@ -1,0 +1,22 @@
+{
+  "name": "skill-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BMyka/Skill-Tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BMyka/Skill-Tracker/issues"
+  },
+  "homepage": "https://github.com/BMyka/Skill-Tracker#readme",
+  "devDependencies": {
+    "webpack-cli": "^5.0.1"
+  }
+}
