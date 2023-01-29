@@ -1,1 +1,3 @@
-console.log("lol");
+import { displayAddNew } from "./addSkill.js";
+import { displayWindow } from "./skills.js";
+displayWindow();
