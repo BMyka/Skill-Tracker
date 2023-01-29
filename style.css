@@ -19,6 +19,7 @@
   margin: 0;
 }
 
+/* Layout */
 body {
   font-size: inherit;
   background-color: var(--background-black);
@@ -42,29 +43,130 @@ body {
   display: flex;
   flex-direction: column;
 }
-
+svg {
+  fill: var(--color-white);
+}
 #navigation button {
-  color: var(--color-yellow);
+  color: var(--color-white);
   background-color: transparent;
   border: none;
   cursor: pointer;
   font-size: 1.3rem;
+  font-weight: bold;
 }
-#navigation img {
+.option svg {
+  fill: var(--color-white);
+}
+#navigation .active {
+  color: var(--color-yellow);
+  fill: var(--color-yellow);
 }
 .option {
   align-self: flex-start;
   display: flex;
   justify-content: center;
+  font-weight: bold;
+  gap: 10px;
 }
 .header {
-  align-self: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   flex: 1;
+  color: var(--color-white);
+  font-weight: bold;
+  font-size: 2rem;
 }
 .main {
   flex: 7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  position: relative;
 }
 
+/* Skills */
+.addNew {
+  display: grid;
+  place-items: center;
+  position: fixed;
+  background-color: var(--color-yellow);
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  right: 2%;
+  bottom: 2%;
+  font-size: 3rem;
+  color: var(--background-black);
+  cursor: pointer;
+  border: none;
+}
+.skill {
+  color: var(--color-white);
+  background-color: var(--background-black-gray);
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 18px;
+  font-weight: bold;
+}
+h3 {
+  margin-left: 5%;
+  padding: 1.3rem;
+}
+.group {
+  margin-right: 5%;
+  display: flex;
+  align-items: center;
+  color: var(--color-light-gray);
+}
+
+/* Add a skill form */
+form {
+  padding: 20px;
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  gap: 15px;
+}
+form > input,
+form > .input-container {
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: var(--background-black-gray);
+  color: var(--color-white);
+  border: 3px solid var(--color-dark-gray);
+}
+#unit-select {
+  line-height: 1.5rem;
+  border-radius: 5px;
+  border: 2px solid var(--color-dark-gray);
+  color: var(--color-light-gray);
+  background-color: var(--background-black-gray);
+}
+form > button {
+  border: none;
+  border-radius: 25px;
+  background-color: var(--color-yellow);
+  width: 40%;
+  justify-self: center;
+  font-weight: bold;
+  font-size: 1.05rem;
+  transition: border 0.1s ease-in-out;
+}
+form > button:hover {
+  border: 2px solid var(--color-light-gray);
+  cursor: pointer;
+}
+
+.header > svg {
+  position: absolute;
+  left: 2%;
+}
+/* Media queries */
 @media (min-width: 768px) {
   body {
     flex-direction: row;
@@ -74,6 +176,7 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 40px;
+    border-right: 3px solid var(--color-black-gray);
   }
 }
 
@@ -85,8 +188,17 @@ body {
     justify-content: space-around;
     width: 100%;
     flex-direction: row;
+    border-bottom: 3px solid var(--color-black-gray);
+  }
+  .option {
+    flex-direction: column-reverse;
+    gap: 0px;
+    align-items: center;
   }
   #content {
     flex: 9;
+  }
+  #navigation button {
+    font-size: 1rem;
   }
 }
