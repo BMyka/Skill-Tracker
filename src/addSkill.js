@@ -6,6 +6,15 @@ function Skill(name, unit, total) {
   this.name = name;
   this.unit = unit;
   this.total = total;
+
+  this.startTimes = [];
+  this.endTimes = [];
+  this.startTimer = function () {
+    this.startTimes.push(new Date());
+  };
+  this.endTimer = function () {
+    this.endTimes.push(new Date());
+  };
 }
 
 export default skills;
@@ -16,38 +25,16 @@ function addNewSkill(name, unit, total) {
   displayWindow();
 }
 
+addNewSkill("The Odin Project", "hours", 110);
+
 export function displayAddNew() {
-  console.log("lmao");
-  const div = document.querySelector("#content");
-  div.textContent = "";
+  let header = document.querySelector(".header");
+  header.textContent = "Add a skill";
 
-  const headerDiv = document.createElement("div");
-  headerDiv.setAttribute("class", "header");
-  const headerText = document.createTextNode("Add a skill");
-  headerDiv.appendChild(headerText);
+  let main = document.querySelector(".main");
+  main.textContent = "";
 
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("height", "48");
-  svg.setAttribute("width", "48");
-  svg.setAttribute("class", "goBack");
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute(
-    "d",
-    "M24 40 8 24 24 8l2.1 2.1-12.4 12.4H40v3H13.7l12.4 12.4Z"
-  );
-
-  svg.appendChild(path);
-  headerDiv.appendChild(svg);
-  div.appendChild(headerDiv);
-
-  let goBack = document.querySelector(".goBack");
-  goBack.addEventListener("click", (e) => {
-    e.stopPropagation();
-    displayWindow();
-  });
-
-  const mainDiv = document.createElement("div");
-  mainDiv.setAttribute("class", "main");
+  addGoBackArrow(header);
 
   const form = document.createElement("form");
   form.setAttribute("action", "");
@@ -105,8 +92,7 @@ export function displayAddNew() {
   button.appendChild(buttonText);
   form.appendChild(button);
 
-  mainDiv.appendChild(form);
-  div.appendChild(mainDiv);
+  main.appendChild(form);
 
   let submit = document.querySelector(".submit");
   submit.addEventListener("click", (e) => {
@@ -119,5 +105,26 @@ export function displayAddNew() {
       "input[placeholder='Total number of hours of practice']"
     ).value;
     addNewSkill(name, selectedUnit, total);
+  });
+}
+
+export function addGoBackArrow(header) {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("height", "48");
+  svg.setAttribute("width", "48");
+  svg.setAttribute("class", "goBack");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute(
+    "d",
+    "M24 40 8 24 24 8l2.1 2.1-12.4 12.4H40v3H13.7l12.4 12.4Z"
+  );
+
+  svg.appendChild(path);
+  header.appendChild(svg);
+
+  let goBack = document.querySelector(".goBack");
+  goBack.addEventListener("click", (e) => {
+    e.stopPropagation();
+    displayWindow();
   });
 }

@@ -1,4 +1,5 @@
 import { displayAddNew } from "./addSkill.js";
+import { displaySkillView } from "./skillView.js";
 import skills from "./addSkill.js";
 
 export function displayWindow() {
@@ -35,12 +36,13 @@ export function displayWindow() {
 function displaySkills(skills) {
   // Get the main div
   const main = document.querySelector(".main");
-
   // Use forEach to iterate through the skills array
+  let index = 0;
   skills.forEach(function (skill) {
     // Create the skill div
     const skillDiv = document.createElement("div");
     skillDiv.classList.add("skill");
+    skillDiv.classList.add("skill-" + index.toString());
     main.appendChild(skillDiv);
 
     // Create the skill name h3
@@ -68,5 +70,16 @@ function displaySkills(skills) {
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.setAttribute("d", "M20 34V14l10 10Z");
     svg.appendChild(path);
+
+    addListener(skill, index);
+    index++;
+  });
+}
+
+function addListener(skill, index) {
+  let skillClick = document.querySelector(".skill-" + index.toString());
+  skillClick.addEventListener("click", (e) => {
+    e.stopPropagation();
+    displaySkillView(skill);
   });
 }

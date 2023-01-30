@@ -16,7 +16,7 @@
     ></script>
     <script src="main.js" defer></script>
   </head>
-  <body>
+  <body class="skillView">
     <div id="navigation">
       <div class="option">
         <svg
@@ -72,6 +72,41 @@
         <button>Settings</button>
       </div>
     </div>
-    <div id="content"></div>
+    <div id="content">
+      <div class="header">Work In Progress</div>
+      <div class="main mainIndividualSkill">
+        <div class="timer">
+          <div class="timeTracker">
+            <div class="last7Days">
+              <p>Last 7 days</p>
+              <h4>24h 48m</h4>
+            </div>
+            <div class="totalTime">
+              <p>Total time</p>
+              <h4>105h 53m</h4>
+            </div>
+          </div>
+          <button class="startTimer">Start timer</button>
+          <button class="addTimeManually">Add time manually</button>
+          <div class="liveTimer">
+            <h4>Tracking</h4>
+            <h4>00:39</h4>
+          </div>
+          <div class="goalProgress">
+            <h4>Daily goal: 2h 2m / 8h</h4>
+            <div class="progressBar">
+              -----------------============================
+            </div>
+          </div>
+        </div>
+        <div class="statistics">
+          <div class="timePick">
+            <button>Days</button><button>Weeks</button><button>Months</button
+            ><button>Years</button>
+          </div>
+          <div class="chart"></div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

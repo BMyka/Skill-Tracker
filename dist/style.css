@@ -26,6 +26,7 @@ body {
   width: 100vw;
   height: 100vh;
   display: flex;
+  overflow-x: hidden;
 }
 
 #navigation {
@@ -113,6 +114,7 @@ svg {
   justify-content: space-between;
   border-radius: 18px;
   font-weight: bold;
+  cursor: pointer;
 }
 h3 {
   margin-left: 5%;
@@ -166,8 +168,128 @@ form > button:hover {
   position: absolute;
   left: 2%;
 }
+
+/* View individual skill */
+.main.mainIndividualSkill {
+  display: flex;
+  flex-direction: row;
+  gap: 8%;
+  align-items: start;
+}
+
+.statistics,
+.timer {
+  margin-top: 10%;
+  border-radius: 25px;
+  flex: 1;
+  height: 50%;
+  background-color: var(--background-black-gray);
+  display: flex;
+  flex-direction: column;
+  gap: 3%;
+}
+.statistics {
+  margin-right: 8%;
+}
+.timer {
+  height: 70%;
+  background: none;
+  margin-left: 8%;
+}
+
+.timePick {
+  flex: 1;
+  display: flex;
+}
+.chart {
+  flex: 7;
+}
+
+.timePick > button {
+  flex: 1;
+  color: var(--color-dark-gray);
+  background-color: transparent;
+  border: 1px solid var(--color-black-gray);
+  border-radius: 8px;
+  margin-top: 1%;
+  cursor: pointer;
+}
+.timePick button:first-child {
+  margin-left: 5%;
+}
+.timePick button:last-child {
+  margin-right: 5%;
+}
+.timeTracker {
+  color: white;
+  display: flex;
+  justify-content: center;
+  gap: 20%;
+}
+.timeTracker p {
+  font-size: 0.75rem;
+  color: var(--color-dark-gray);
+}
+.startTimer,
+.stopTimer {
+  font-weight: bold;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--color-yellow);
+  cursor: pointer;
+}
+.stopTimer {
+  display: none;
+  background-color: var(--color-red);
+}
+.addTimeManually {
+  font-weight: bold;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  color: var(--color-white);
+  background-color: var(--background-dark-gray);
+  cursor: pointer;
+}
+.liveTimer {
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  padding: 1.4rem;
+  color: var(--color-white);
+  background-color: var(--background-black-gray);
+}
+.goalProgress {
+  border-radius: 10px;
+  font-weight: bold;
+  padding: 1.4rem;
+  color: var(--color-white);
+  background-color: var(--background-black-gray);
+}
+
+/* Scroll bar */
+::-webkit-scrollbar {
+  overflow: scroll; /* or 'auto' */
+  -webkit-overflow-scrolling: touch;
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #444;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #444;
+}
+
 /* Media queries */
-@media (min-width: 768px) {
+@media (min-width: 826px) {
   body {
     flex-direction: row;
   }
@@ -180,7 +302,7 @@ form > button:hover {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 825px) {
   body {
     flex-direction: column;
   }
@@ -191,14 +313,45 @@ form > button:hover {
     border-bottom: 3px solid var(--color-black-gray);
   }
   .option {
-    flex-direction: column-reverse;
+    margin-top: 0.6rem;
+    display: grid;
+    place-items: center;
     gap: 0px;
-    align-items: center;
   }
   #content {
     flex: 9;
   }
   #navigation button {
     font-size: 1rem;
+  }
+  body.skillView {
+    height: 150vh;
+  }
+  .main.mainIndividualSkill {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .statistics {
+    width: 80%;
+    height: 30%;
+    height: 500px;
+    margin: 0 0 5%;
+  }
+
+  .timePick {
+    flex: 1;
+    display: flex;
+  }
+  .timer {
+    flex: 1;
+    gap: 10px;
+    height: 70%;
+    background: none;
+    margin: 0;
+  }
+  .soliloquy-container {
+    display: none;
   }
 }
