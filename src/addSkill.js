@@ -9,11 +9,28 @@ function Skill(name, unit, total) {
 
   this.startTimes = [];
   this.endTimes = [];
-  this.startTimer = function () {
+  this.timeDurations = [];
+
+  this.startTimer = () => {
     this.startTimes.push(new Date());
   };
-  this.endTimer = function () {
+  this.endTimer = () => {
     this.endTimes.push(new Date());
+  };
+  this.getDuration = () => {
+    let startTime = this.startTimes[this.startTimes.length - 1].getTime();
+    let endTime = this.endTimes[this.endTimes.length - 1].getTime();
+    this.timeDurations.push((endTime - startTime) / 1000);
+  };
+  this.getTotal = function () {
+    let sum = 0;
+    if (this.timeDurations.length) {
+      sum = this.timeDurations.reduce((storeValues, duration) => {
+        return storeValues + duration;
+      });
+    }
+
+    return this.total + sum;
   };
 }
 

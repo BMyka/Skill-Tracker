@@ -57,7 +57,7 @@ function displaySkills(skills) {
 
     // Create the skill hours p
     const skillTotal = document.createElement("p");
-    skillTotal.innerHTML = `${skill.total} ${skill.unit}`;
+    skillTotal.innerHTML = `${skill.getTotal()} ${skill.unit}`;
     group.appendChild(skillTotal);
 
     // Create the SVG

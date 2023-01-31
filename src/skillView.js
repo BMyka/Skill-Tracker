@@ -24,10 +24,15 @@ export function displaySkillView(skill) {
 
   let totalTime = document.createElement("div");
   totalTime.classList.add("totalTime");
-  totalTime.innerHTML = `
-      <p>Total time</p>
-      <h4>110h 42m</h4>
-    `;
+  let p = document.createElement("p");
+  p.innerHTML = "Total time";
+
+  let h4 = document.createElement("h4");
+  h4.className = "totalTimeValue";
+  h4.innerHTML = skill.getTotal();
+
+  totalTime.appendChild(p);
+  totalTime.appendChild(h4);
 
   let startTimer = document.createElement("button");
   startTimer.classList.add("startTimer");
@@ -110,6 +115,14 @@ export function displaySkillView(skill) {
     start.style.display = "block";
     stop.style.display = "none";
     skill.endTimer();
+    skill.getDuration();
+    updateTotalTimeValue(skill.getTotal());
     clearInterval(intervalId);
   });
+}
+
+function updateTotalTimeValue(total) {
+  console.log("ok");
+  let timerValue = document.querySelector(".totalTimeValue");
+  timerValue.textContent = total;
 }
