@@ -32,17 +32,39 @@ function Skill(name, unit, total) {
 
     return this.total + sum;
   };
+  this.getTotalPastWeek = function () {
+    let sum = 0;
+    let currentTime = new Date().getTime();
+    let oneWeekAgo = currentTime - 604800000;
+
+    if (this.timeDurations.length) {
+      for (let i = 0; i < this.startTimes.length; i++) {
+        let startTime = this.startTimes[i].getTime();
+        if (startTime >= oneWeekAgo) {
+          sum += this.timeDurations[i];
+        }
+      }
+    }
+    return this.total + sum;
+  };
 }
 
 export default skills;
 
 function addNewSkill(name, unit, total) {
-  const newSkill = new Skill(name, unit, total);
+  const newSkill = new Skill(name, unit, total * 60 * 60);
   skills.push(newSkill);
   displayWindow();
 }
 
 addNewSkill("The Odin Project", "hours", 110);
+skills[0].startTimes[0] = new Date(
+  new Date().getTime() - 21 * 24 * 60 * 60 * 1000
+);
+skills[0].endTimes[0] = new Date(
+  new Date().getTime() - 14 * 24 * 60 * 60 * 1000
+);
+skills[0].getDuration();
 
 export function displayAddNew() {
   let header = document.querySelector(".header");

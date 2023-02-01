@@ -1,4 +1,7 @@
 import { addGoBackArrow } from "./addSkill.js";
+import { timePickerDisplay } from "./timePick.js";
+import { timePickerLogic } from "./timePick.js";
+import { addTimePickerListeners } from "./timePick.js";
 
 export function displaySkillView(skill) {
   let header = document.querySelector(".header");
@@ -11,28 +14,35 @@ export function displaySkillView(skill) {
 
   let timer = document.createElement("div");
   timer.classList.add("timer");
-
+  console.log("i'll murder you");
   let timeTracker = document.createElement("div");
   timeTracker.classList.add("timeTracker");
 
   let last7Days = document.createElement("div");
   last7Days.classList.add("last7Days");
-  last7Days.innerHTML = `
-      <p>Last 7 days</p>
-      <h4>24h 48m</h4>
-    `;
+
+  let last7DaysP = document.createElement("p");
+  last7DaysP.textContent = "Last 7 days";
+
+  let last7DaysH4 = document.createElement("h4");
+  last7DaysH4.classList.add("weekTimeValue");
+  last7DaysH4.textContent = timeFormatting(skill.getTotalPastWeek());
+
+  last7Days.appendChild(last7DaysP);
+  last7Days.appendChild(last7DaysH4);
 
   let totalTime = document.createElement("div");
   totalTime.classList.add("totalTime");
-  let p = document.createElement("p");
-  p.innerHTML = "Total time";
 
-  let h4 = document.createElement("h4");
-  h4.className = "totalTimeValue";
-  h4.innerHTML = skill.getTotal();
+  let totalTimeP = document.createElement("p");
+  totalTimeP.textContent = "Total time";
 
-  totalTime.appendChild(p);
-  totalTime.appendChild(h4);
+  let totalTimeH4 = document.createElement("h4");
+  totalTimeH4.className = "totalTimeValue";
+  totalTimeH4.textContent = timeFormatting(skill.getTotal());
+
+  totalTime.appendChild(totalTimeP);
+  totalTime.appendChild(totalTimeH4);
 
   let startTimer = document.createElement("button");
   startTimer.classList.add("startTimer");
@@ -82,10 +92,19 @@ export function displaySkillView(skill) {
   timer.appendChild(addTimeManually);
   timer.appendChild(liveTimer);
   timer.appendChild(goalProgress);
+  timer.appendChild(timePickerDisplay());
   statistics.appendChild(timePick);
   statistics.appendChild(chart);
   main.appendChild(timer);
   main.appendChild(statistics);
+  console.log("i'll murder you");
+  timePickerLogic();
+  console.log("i'll murder you");
+  console.log("i'll murder you");
+
+  addTimePickerListeners();
+
+  console.log("i'll murder you");
 
   // Get the elements
   let start = document.querySelector(".startTimer");
@@ -116,13 +135,28 @@ export function displaySkillView(skill) {
     stop.style.display = "none";
     skill.endTimer();
     skill.getDuration();
-    updateTotalTimeValue(skill.getTotal());
+    updateTotalTimeValue(skill.getTotal(), skill.getTotalPastWeek());
     clearInterval(intervalId);
   });
 }
 
-function updateTotalTimeValue(total) {
-  console.log("ok");
-  let timerValue = document.querySelector(".totalTimeValue");
-  timerValue.textContent = total;
+function updateTotalTimeValue(total, week) {
+  console.log(week);
+  let totalValue = document.querySelector(".totalTimeValue");
+  totalValue.textContent = timeFormatting(total);
+
+  let weekValue = document.querySelector(".weekTimeValue");
+  weekValue.textContent = timeFormatting(week);
+}
+
+export function timeFormatting(seconds) {
+  let hours = Math.floor(seconds / 3600);
+  let minutes = Math.floor((seconds % 3600) / 60);
+  let secs = Math.floor(seconds % 60);
+
+  if (hours) {
+    return `${hours}h ${minutes}m`;
+  } else {
+    return `${minutes}m ${secs}s`;
+  }
 }
