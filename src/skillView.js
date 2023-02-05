@@ -14,7 +14,6 @@ export function displaySkillView(skill) {
 
   let timer = document.createElement("div");
   timer.classList.add("timer");
-  console.log("i'll murder you");
   let timeTracker = document.createElement("div");
   timeTracker.classList.add("timeTracker");
 
@@ -97,14 +96,9 @@ export function displaySkillView(skill) {
   statistics.appendChild(chart);
   main.appendChild(timer);
   main.appendChild(statistics);
-  console.log("i'll murder you");
   timePickerLogic();
-  console.log("i'll murder you");
-  console.log("i'll murder you");
 
-  addTimePickerListeners();
-
-  console.log("i'll murder you");
+  addTimePickerListeners(skill);
 
   // Get the elements
   let start = document.querySelector(".startTimer");
@@ -140,8 +134,8 @@ export function displaySkillView(skill) {
   });
 }
 
-function updateTotalTimeValue(total, week) {
-  console.log(week);
+export function updateTotalTimeValue(total, week) {
+  console.log(total);
   let totalValue = document.querySelector(".totalTimeValue");
   totalValue.textContent = timeFormatting(total);
 

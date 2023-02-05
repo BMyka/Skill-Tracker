@@ -3,7 +3,6 @@ import { displaySkillView } from "./skillView.js";
 import { timeFormatting } from "./skillView.js";
 import skills from "./addSkill.js";
 
-console.log("FUCKING WORK");
 export function displayWindow() {
   // Create the container div
   const skillContainer = document.querySelector("#content");

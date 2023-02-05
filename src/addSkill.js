@@ -18,9 +18,16 @@ function Skill(name, unit, total) {
     this.endTimes.push(new Date());
   };
   this.getDuration = () => {
+    console.log("lol");
     let startTime = this.startTimes[this.startTimes.length - 1].getTime();
     let endTime = this.endTimes[this.endTimes.length - 1].getTime();
     this.timeDurations.push((endTime - startTime) / 1000);
+    console.log(this.timeDurations[this.timeDurations.length - 1]);
+  };
+  this.getEndTimeFromDuration = (minutes) => {
+    let startTime = this.startTimes[this.startTimes.length - 1];
+    let endTime = new Date(startTime.getTime() + minutes * 60000);
+    this.endTimes.push(endTime);
   };
   this.getTotal = function () {
     let sum = 0;
