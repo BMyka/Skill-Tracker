@@ -1,7 +1,12 @@
 import { updateTotalTimeValue } from "./skillView";
+<<<<<<< HEAD
 import { updateTotalValues } from "./skillView";
 
 export function timePickerDisplay(skill) {
+=======
+
+export function timePickerDisplay() {
+>>>>>>> dbe98bf7ada277880ed915ed3b046669bdb9db4f
   const timePicker = document.createElement("div");
   timePicker.classList.add("time-picker");
   timePicker.setAttribute("data-time", "00:00");
@@ -9,6 +14,7 @@ export function timePickerDisplay(skill) {
 
   const timePickerHeader = document.createElement("div");
   timePickerHeader.classList.add("time-picker-header");
+<<<<<<< HEAD
   if (skill.unit == "times") {
     timePickerHeader.textContent = "Add times";
   } else if (skill.unit == "hours") {
@@ -17,6 +23,9 @@ export function timePickerDisplay(skill) {
     timePickerHeader.textContent = "Add km";
   }
 
+=======
+  timePickerHeader.textContent = "Add time";
+>>>>>>> dbe98bf7ada277880ed915ed3b046669bdb9db4f
   timePicker.appendChild(timePickerHeader);
 
   const timePickerMain = document.createElement("div");
@@ -41,6 +50,7 @@ export function timePickerDisplay(skill) {
   hourDown.classList.add("hr-down");
   hour.appendChild(hourDown);
 
+<<<<<<< HEAD
   if (skill.unit == "hours") {
     const separator = document.createElement("div");
     separator.classList.add("separator");
@@ -65,6 +75,30 @@ export function timePickerDisplay(skill) {
     minuteDown.classList.add("min-down");
     minute.appendChild(minuteDown);
   }
+=======
+  const separator = document.createElement("div");
+  separator.classList.add("separator");
+  separator.textContent = ":";
+  timePickerMain.appendChild(separator);
+
+  const minute = document.createElement("div");
+  minute.classList.add("minute");
+  timePickerMain.appendChild(minute);
+
+  const minuteUp = document.createElement("div");
+  minuteUp.classList.add("min-up");
+  minute.appendChild(minuteUp);
+
+  const minuteInput = document.createElement("input");
+  minuteInput.setAttribute("type", "number");
+  minuteInput.classList.add("min");
+  minuteInput.setAttribute("value", "00");
+  minute.appendChild(minuteInput);
+
+  const minuteDown = document.createElement("div");
+  minuteDown.classList.add("min-down");
+  minute.appendChild(minuteDown);
+>>>>>>> dbe98bf7ada277880ed915ed3b046669bdb9db4f
 
   const timePickerButtons = document.createElement("div");
   timePickerButtons.classList.add("time-picker-buttons");
@@ -94,11 +128,15 @@ export function addTimePickerListeners(skill) {
     skill.startTimer();
     skill.getEndTimeFromDuration(Number(hours.value) * 60 + Number(min.value));
     skill.getDuration();
+<<<<<<< HEAD
     if (skill.unit == "hours") {
       updateTotalTimeValue(skill.getTotal(), skill.getTotalPastWeek());
     } else {
       updateTotalValues(skill.getTotal(), skill.getTotalPastWeek());
     }
+=======
+    updateTotalTimeValue(skill.getTotal(), skill.getTotalPastWeek());
+>>>>>>> dbe98bf7ada277880ed915ed3b046669bdb9db4f
     hours.value = "00";
     min.value = "00";
     pickerWindow.style.display = "none";
@@ -287,6 +325,7 @@ export function timePickerLogic() {
     clearInterval(min_down_held_interval);
   });
 }
+<<<<<<< HEAD
 
 export function generalAddPickerListeners(skill) {
   let pickerWindow = document.querySelector(".time-picker");
@@ -406,3 +445,5 @@ export function generalPickerLogic() {
     clearInterval(hour_down_held_interval);
   });
 }
+=======
+>>>>>>> dbe98bf7ada277880ed915ed3b046669bdb9db4f
