@@ -256,7 +256,7 @@ form > button:hover {
 }
 .liveTimer {
   border-radius: 10px;
-  display: flex;
+  display: none;
   justify-content: space-between;
   font-weight: bold;
   padding: 1.4rem;
