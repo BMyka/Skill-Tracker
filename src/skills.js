@@ -1,9 +1,9 @@
 import { displayAddNew } from "./addSkill.js";
-import { displaySkillView } from "./skillView.js";
+import { displaySkillViewTime } from "./skillView.js";
+import { displaySkillViewGeneral } from "./skillView.js";
 import { timeFormatting } from "./skillView.js";
 import skills from "./addSkill.js";
 
-console.log("FUCKING WORK");
 export function displayWindow() {
   // Create the container div
   const skillContainer = document.querySelector("#content");
@@ -59,7 +59,16 @@ function displaySkills(skills) {
 
     // Create the skill hours p
     const skillTotal = document.createElement("p");
-    skillTotal.innerHTML = `${timeFormatting(skill.getTotal())}`;
+    console.log(skill.unit);
+    if (skill.unit == "hours") {
+      skillTotal.innerHTML = `${timeFormatting(skill.getTotal())}`;
+    }
+    if (skill.unit == "kilometers") {
+      skillTotal.innerHTML = `${skill.total} km`;
+    }
+    if (skill.unit == "times") {
+      skillTotal.innerHTML = `${skill.total} times`;
+    }
     group.appendChild(skillTotal);
 
     // Create the SVG
@@ -82,6 +91,10 @@ function addListener(skill, index) {
   let skillClick = document.querySelector(".skill-" + index.toString());
   skillClick.addEventListener("click", (e) => {
     e.stopPropagation();
-    displaySkillView(skill);
+    if (skill.unit == "hours") {
+      displaySkillViewTime(skill);
+    } else {
+      displaySkillViewGeneral(skill);
+    }
   });
 }

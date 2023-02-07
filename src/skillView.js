@@ -1,9 +1,11 @@
 import { addGoBackArrow } from "./addSkill.js";
 import { timePickerDisplay } from "./timePick.js";
 import { timePickerLogic } from "./timePick.js";
+import { generalAddPickerListeners } from "./timePick.js";
+import { generalPickerLogic } from "./timePick.js";
 import { addTimePickerListeners } from "./timePick.js";
 
-export function displaySkillView(skill) {
+export function displaySkillViewGeneral(skill) {
   let header = document.querySelector(".header");
   header.textContent = skill.name;
   addGoBackArrow(header);
@@ -14,7 +16,126 @@ export function displaySkillView(skill) {
 
   let timer = document.createElement("div");
   timer.classList.add("timer");
-  console.log("i'll murder you");
+  let timeTracker = document.createElement("div");
+  timeTracker.classList.add("timeTracker");
+
+  let last7Days = document.createElement("div");
+  last7Days.classList.add("last7Days");
+
+  let last7DaysP = document.createElement("p");
+  last7DaysP.textContent = "Last 7 days";
+
+  //
+  let last7DaysH4 = document.createElement("h4");
+  last7DaysH4.classList.add("weekTimeValue");
+
+  let totalTime = document.createElement("div");
+  totalTime.classList.add("totalTime");
+
+  let totalTimeP = document.createElement("p");
+
+  let totalTimeH4 = document.createElement("h4");
+  totalTimeH4.className = "totalTimeValue";
+  totalTimeH4.textContent = skill.total;
+
+  //
+  let addTimeManually = document.createElement("button");
+  addTimeManually.classList.add("addTimeManually");
+
+  if (skill.unit == "kilometers") {
+    last7DaysH4.textContent = `${skill.getTotalPastWeek()} km`;
+    totalTimeP.textContent = "Total kilometers";
+    totalTimeH4.textContent = `${skill.total} km`;
+    addTimeManually.textContent = "Add kilometers";
+  } else {
+    last7DaysH4.textContent = `${skill.getTotalPastWeek()} times`;
+    totalTimeP.textContent = "Total amount of times";
+    totalTimeH4.textContent = `${skill.total} times`;
+    addTimeManually.textContent = "Add times";
+  }
+
+  last7Days.appendChild(last7DaysP);
+
+  last7Days.appendChild(last7DaysH4);
+  totalTime.appendChild(totalTimeP);
+  totalTime.appendChild(totalTimeH4);
+
+  let goalProgress = document.createElement("div");
+  goalProgress.classList.add("goalProgress");
+  goalProgress.innerHTML = `
+      <h4>Daily goal: 2h 2m / 8h</h4>
+      <div class="progressBar">
+        -----------------============================
+      </div>
+    `;
+
+  let statistics = document.createElement("div");
+  statistics.classList.add("statistics");
+
+  let timePick = document.createElement("div");
+  timePick.classList.add("timePick");
+  timePick.innerHTML = `
+      <button>Days</button><button>Weeks</button><button>Months</button><button>Years</button>
+    `;
+
+  let chart = document.createElement("div");
+  chart.classList.add("chart");
+
+  timeTracker.appendChild(last7Days);
+  timeTracker.appendChild(totalTime);
+  timer.appendChild(timeTracker);
+  timer.appendChild(addTimeManually);
+  timer.appendChild(goalProgress);
+  timer.appendChild(timePickerDisplay(skill));
+  statistics.appendChild(timePick);
+  statistics.appendChild(chart);
+  main.appendChild(timer);
+  main.appendChild(statistics);
+
+  generalPickerLogic();
+  generalAddPickerListeners(skill);
+}
+
+export function updateTotalTimeValue(total, week) {
+  console.log(total);
+  let totalValue = document.querySelector(".totalTimeValue");
+  totalValue.textContent = timeFormatting(total);
+
+  let weekValue = document.querySelector(".weekTimeValue");
+  weekValue.textContent = timeFormatting(week);
+}
+export function updateTotalValues(total, week) {
+  console.log(total);
+  let totalValue = document.querySelector(".totalTimeValue");
+  totalValue.textContent = total;
+
+  let weekValue = document.querySelector(".weekTimeValue");
+  weekValue.textContent = week;
+}
+
+export function timeFormatting(seconds) {
+  let hours = Math.floor(seconds / 3600);
+  let minutes = Math.floor((seconds % 3600) / 60);
+  let secs = Math.floor(seconds % 60);
+
+  if (hours) {
+    return `${hours}h ${minutes}m`;
+  } else {
+    return `${minutes}m ${secs}s`;
+  }
+}
+
+export function displaySkillViewTime(skill) {
+  let header = document.querySelector(".header");
+  header.textContent = skill.name;
+  addGoBackArrow(header);
+
+  let main = document.querySelector(".main");
+  main.classList.add("mainIndividualSkill");
+  main.innerHTML = "";
+
+  let timer = document.createElement("div");
+  timer.classList.add("timer");
   let timeTracker = document.createElement("div");
   timeTracker.classList.add("timeTracker");
 
@@ -30,7 +151,6 @@ export function displaySkillView(skill) {
 
   last7Days.appendChild(last7DaysP);
   last7Days.appendChild(last7DaysH4);
-
   let totalTime = document.createElement("div");
   totalTime.classList.add("totalTime");
 
@@ -92,23 +212,21 @@ export function displaySkillView(skill) {
   timer.appendChild(addTimeManually);
   timer.appendChild(liveTimer);
   timer.appendChild(goalProgress);
-  timer.appendChild(timePickerDisplay());
+
+  timer.appendChild(timePickerDisplay(skill));
+
   statistics.appendChild(timePick);
   statistics.appendChild(chart);
   main.appendChild(timer);
   main.appendChild(statistics);
-  console.log("i'll murder you");
+
   timePickerLogic();
-  console.log("i'll murder you");
-  console.log("i'll murder you");
-
-  addTimePickerListeners();
-
-  console.log("i'll murder you");
+  addTimePickerListeners(skill);
 
   // Get the elements
   let start = document.querySelector(".startTimer");
   let stop = document.querySelector(".stopTimer");
+  let tracking = document.querySelector(".liveTimer");
   let timerValue = document.querySelector(".timerValue");
 
   // Initialize the timer
@@ -119,6 +237,7 @@ export function displaySkillView(skill) {
   start.addEventListener("click", function () {
     start.style.display = "none";
     stop.style.display = "block";
+    tracking.style.display = "flex";
     skill.startTimer();
     intervalId = setInterval(function () {
       time++;
@@ -133,30 +252,12 @@ export function displaySkillView(skill) {
   stop.addEventListener("click", function () {
     start.style.display = "block";
     stop.style.display = "none";
+    tracking.style.display = "none";
     skill.endTimer();
     skill.getDuration();
     updateTotalTimeValue(skill.getTotal(), skill.getTotalPastWeek());
     clearInterval(intervalId);
+    timerValue.textContent = "0:00";
+    time = 0;
   });
-}
-
-function updateTotalTimeValue(total, week) {
-  console.log(week);
-  let totalValue = document.querySelector(".totalTimeValue");
-  totalValue.textContent = timeFormatting(total);
-
-  let weekValue = document.querySelector(".weekTimeValue");
-  weekValue.textContent = timeFormatting(week);
-}
-
-export function timeFormatting(seconds) {
-  let hours = Math.floor(seconds / 3600);
-  let minutes = Math.floor((seconds % 3600) / 60);
-  let secs = Math.floor(seconds % 60);
-
-  if (hours) {
-    return `${hours}h ${minutes}m`;
-  } else {
-    return `${minutes}m ${secs}s`;
-  }
 }

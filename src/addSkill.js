@@ -18,9 +18,16 @@ function Skill(name, unit, total) {
     this.endTimes.push(new Date());
   };
   this.getDuration = () => {
+    console.log("lol");
     let startTime = this.startTimes[this.startTimes.length - 1].getTime();
     let endTime = this.endTimes[this.endTimes.length - 1].getTime();
     this.timeDurations.push((endTime - startTime) / 1000);
+    console.log(this.timeDurations[this.timeDurations.length - 1]);
+  };
+  this.getEndTimeFromDuration = (minutes) => {
+    let startTime = this.startTimes[this.startTimes.length - 1];
+    let endTime = new Date(startTime.getTime() + minutes * 60000);
+    this.endTimes.push(endTime);
   };
   this.getTotal = function () {
     let sum = 0;
@@ -52,7 +59,10 @@ function Skill(name, unit, total) {
 export default skills;
 
 function addNewSkill(name, unit, total) {
-  const newSkill = new Skill(name, unit, total * 60 * 60);
+  if (unit == "hours") {
+    total = total * 60 * 60;
+  }
+  const newSkill = new Skill(name, unit, total);
   skills.push(newSkill);
   displayWindow();
 }
@@ -119,6 +129,7 @@ export function displayAddNew() {
   form.appendChild(unitDiv);
 
   const totalInput = document.createElement("input");
+  totalInput.setAttribute("class", "skillType");
   totalInput.setAttribute("type", "number");
   totalInput.setAttribute("placeholder", "Total number of hours of practice");
   totalInput.setAttribute("required", "");
@@ -133,17 +144,29 @@ export function displayAddNew() {
 
   main.appendChild(form);
 
+  let selected = form.querySelector("select#unit-select");
+  selected.addEventListener("change", function () {
+    const selectedValue = this.value;
+    if (selectedValue === "times") {
+      totalInput.setAttribute("placeholder", "Total number of times");
+    } else if (selectedValue === "hours") {
+      totalInput.setAttribute(
+        "placeholder",
+        "Total number of hours of practice"
+      );
+    } else if (selectedValue === "kilometers") {
+      totalInput.setAttribute("placeholder", "Total number of kilometers");
+    }
+  });
   let submit = document.querySelector(".submit");
   submit.addEventListener("click", (e) => {
     e.preventDefault();
+    let name = form.querySelector("input[placeholder='Name']").value;
 
-    const name = form.querySelector("input[placeholder='Name']").value;
-    const select = form.querySelector("select#unit-select");
-    let selectedUnit = select.value;
-    const total = form.querySelector(
-      "input[placeholder='Total number of hours of practice']"
-    ).value;
-    addNewSkill(name, selectedUnit, total);
+    let selected = form.querySelector("select#unit-select");
+
+    let total = form.querySelector(".skillType").value;
+    addNewSkill(name, selected.value, total);
   });
 }
 
