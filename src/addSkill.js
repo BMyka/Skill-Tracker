@@ -5,7 +5,7 @@ const skills = [];
 function Skill(name, unit, total) {
   this.name = name;
   this.unit = unit;
-  this.total = total;
+  this.total = total || 0;
 
   this.startTimes = [];
   this.endTimes = [];
@@ -24,6 +24,9 @@ function Skill(name, unit, total) {
     this.timeDurations.push((endTime - startTime) / 1000);
     console.log(this.timeDurations[this.timeDurations.length - 1]);
   };
+  this.pushUnitValue = (value) => {
+    this.timeDurations.push(value);
+  };
   this.getEndTimeFromDuration = (minutes) => {
     let startTime = this.startTimes[this.startTimes.length - 1];
     let endTime = new Date(startTime.getTime() + minutes * 60000);
@@ -37,7 +40,7 @@ function Skill(name, unit, total) {
       });
     }
 
-    return this.total + sum;
+    return Number(this.total) + sum;
   };
   this.getTotalPastWeek = function () {
     let sum = 0;
@@ -49,10 +52,12 @@ function Skill(name, unit, total) {
         let startTime = this.startTimes[i].getTime();
         if (startTime >= oneWeekAgo) {
           sum += this.timeDurations[i];
+          console.log("TEST");
+          console.log(this.timeDurations[i]);
         }
       }
     }
-    return this.total + sum;
+    return Number(this.total) + sum;
   };
 }
 
@@ -68,6 +73,7 @@ function addNewSkill(name, unit, total) {
 }
 
 addNewSkill("The Odin Project", "hours", 110);
+addNewSkill("Running", "kilometers", 10);
 skills[0].startTimes[0] = new Date(
   new Date().getTime() - 21 * 24 * 60 * 60 * 1000
 );
@@ -75,6 +81,15 @@ skills[0].endTimes[0] = new Date(
   new Date().getTime() - 14 * 24 * 60 * 60 * 1000
 );
 skills[0].getDuration();
+
+skills[1].startTimes[0] = new Date(
+  new Date().getTime() - 21 * 24 * 60 * 60 * 1000
+);
+skills[1].endTimes[0] = new Date(
+  new Date().getTime() - 21 * 24 * 60 * 60 * 1000
+);
+
+skills[1].pushUnitValue(5);
 
 export function displayAddNew() {
   let header = document.querySelector(".header");

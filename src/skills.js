@@ -64,10 +64,10 @@ function displaySkills(skills) {
       skillTotal.innerHTML = `${timeFormatting(skill.getTotal())}`;
     }
     if (skill.unit == "kilometers") {
-      skillTotal.innerHTML = `${skill.total} km`;
+      skillTotal.innerHTML = `${skill.getTotal()} km`;
     }
     if (skill.unit == "times") {
-      skillTotal.innerHTML = `${skill.total} times`;
+      skillTotal.innerHTML = `${skill.getTotal()} times`;
     }
     group.appendChild(skillTotal);
 

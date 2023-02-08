@@ -36,7 +36,6 @@ export function displaySkillViewGeneral(skill) {
 
   let totalTimeH4 = document.createElement("h4");
   totalTimeH4.className = "totalTimeValue";
-  totalTimeH4.textContent = skill.total;
 
   //
   let addTimeManually = document.createElement("button");
@@ -45,12 +44,12 @@ export function displaySkillViewGeneral(skill) {
   if (skill.unit == "kilometers") {
     last7DaysH4.textContent = `${skill.getTotalPastWeek()} km`;
     totalTimeP.textContent = "Total kilometers";
-    totalTimeH4.textContent = `${skill.total} km`;
+    totalTimeH4.textContent = `${skill.getTotal()} km`;
     addTimeManually.textContent = "Add kilometers";
   } else {
     last7DaysH4.textContent = `${skill.getTotalPastWeek()} times`;
     totalTimeP.textContent = "Total amount of times";
-    totalTimeH4.textContent = `${skill.total} times`;
+    totalTimeH4.textContent = `${skill.getTotal()} times`;
     addTimeManually.textContent = "Add times";
   }
 
@@ -62,13 +61,27 @@ export function displaySkillViewGeneral(skill) {
 
   let goalProgress = document.createElement("div");
   goalProgress.classList.add("goalProgress");
-  goalProgress.innerHTML = `
-      <h4>Daily goal: 2h 2m / 8h</h4>
-      <div class="progressBar">
-        -----------------============================
-      </div>
-    `;
 
+  let h4 = document.createElement("h4");
+  h4.textContent = `Weekly goal: ${skill.getTotalPastWeek()} / 40 ${
+    skill.unit
+  }`;
+  goalProgress.appendChild(h4);
+  //
+
+  let animatedProgress = document.createElement("div");
+  animatedProgress.classList.add("animated-progress", "progress-yellow");
+
+  let span = document.createElement("span");
+
+  span.setAttribute(
+    "data-progress",
+    `${(skill.getTotalPastWeek() * 100) / 40}`
+  );
+  animatedProgress.appendChild(span);
+
+  goalProgress.appendChild(animatedProgress);
+  //
   let statistics = document.createElement("div");
   statistics.classList.add("statistics");
 
@@ -92,25 +105,53 @@ export function displaySkillViewGeneral(skill) {
   main.appendChild(timer);
   main.appendChild(statistics);
 
+  span = document.querySelector(".animated-progress span");
+  span.style.width = `${span.getAttribute("data-progress")}%`;
+  span.textContent = `${span.getAttribute("data-progress")}%`;
+
   generalPickerLogic();
   generalAddPickerListeners(skill);
 }
 
+export function updateProgressBar(percent, skill) {
+  let span = document.querySelector(".animated-progress span");
+  span.setAttribute("data-progress", `${percent}`);
+  span.style.width = `${percent}%`;
+  span.textContent = `${percent}%`;
+
+  let goalProgress = document.querySelector(".goalProgress");
+  let h4 = goalProgress.querySelector("h4");
+  if (skill.unit === "hours") {
+    h4.textContent = `Weekly goal: ${(skill.getTotalPastWeek() / 3600).toFixed(
+      0
+    )} / 40 ${skill.unit}`;
+  } else {
+    h4.textContent = `Weekly goal: ${skill.getTotalPastWeek()} / 40 ${
+      skill.unit
+    }`;
+  }
+}
+
+export function updateTotalValues(total, week, unit) {
+  let value;
+  if (unit === "kilometers") {
+    value = "km";
+  } else {
+    value = unit;
+  }
+  let totalValue = document.querySelector(".totalTimeValue");
+  totalValue.textContent = `${total} ${value}`;
+
+  let weekValue = document.querySelector(".weekTimeValue");
+  weekValue.textContent = `${week} ${value}`;
+}
+
 export function updateTotalTimeValue(total, week) {
-  console.log(total);
   let totalValue = document.querySelector(".totalTimeValue");
   totalValue.textContent = timeFormatting(total);
 
   let weekValue = document.querySelector(".weekTimeValue");
   weekValue.textContent = timeFormatting(week);
-}
-export function updateTotalValues(total, week) {
-  console.log(total);
-  let totalValue = document.querySelector(".totalTimeValue");
-  totalValue.textContent = total;
-
-  let weekValue = document.querySelector(".weekTimeValue");
-  weekValue.textContent = week;
 }
 
 export function timeFormatting(seconds) {
@@ -185,13 +226,27 @@ export function displaySkillViewTime(skill) {
 
   let goalProgress = document.createElement("div");
   goalProgress.classList.add("goalProgress");
-  goalProgress.innerHTML = `
-      <h4>Daily goal: 2h 2m / 8h</h4>
-      <div class="progressBar">
-        -----------------============================
-      </div>
-    `;
 
+  let h4 = document.createElement("h4");
+  h4.textContent = `Weekly goal: ${(skill.getTotalPastWeek() / 3600).toFixed(
+    0
+  )} / 40 ${skill.unit}`;
+  goalProgress.appendChild(h4);
+  //
+
+  let animatedProgress = document.createElement("div");
+  animatedProgress.classList.add("animated-progress", "progress-yellow");
+
+  let span = document.createElement("span");
+  let barValue = ((Number(skill.getTotalPastWeek()) / 3600) * 100) / 40;
+  if (barValue > 100) {
+    barValue = 100;
+  }
+  span.setAttribute("data-progress", `${barValue}`);
+  animatedProgress.appendChild(span);
+
+  goalProgress.appendChild(animatedProgress);
+  //
   let statistics = document.createElement("div");
   statistics.classList.add("statistics");
 
@@ -219,6 +274,10 @@ export function displaySkillViewTime(skill) {
   statistics.appendChild(chart);
   main.appendChild(timer);
   main.appendChild(statistics);
+
+  span = document.querySelector(".animated-progress span");
+  span.style.width = `${span.getAttribute("data-progress")}%`;
+  span.textContent = `${span.getAttribute("data-progress")}%`;
 
   timePickerLogic();
   addTimePickerListeners(skill);
@@ -259,5 +318,11 @@ export function displaySkillViewTime(skill) {
     clearInterval(intervalId);
     timerValue.textContent = "0:00";
     time = 0;
+
+    let barValue = ((Number(skill.getTotalPastWeek()) / 3600) * 100) / 40;
+    if (barValue > 100) {
+      barValue = 100;
+    }
+    updateProgressBar(barValue.toFixed(1), skill);
   });
 }

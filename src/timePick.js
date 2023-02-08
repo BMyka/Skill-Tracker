@@ -1,5 +1,6 @@
 import { updateTotalTimeValue } from "./skillView";
 import { updateTotalValues } from "./skillView";
+import { updateProgressBar } from "./skillView";
 
 export function timePickerDisplay(skill) {
   const timePicker = document.createElement("div");
@@ -102,6 +103,12 @@ export function addTimePickerListeners(skill) {
     hours.value = "00";
     min.value = "00";
     pickerWindow.style.display = "none";
+
+    let barValue = ((Number(skill.getTotalPastWeek()) / 3600) * 100) / 40;
+    if (barValue > 100) {
+      barValue = 100;
+    }
+    updateProgressBar(barValue.toFixed(1), skill);
   });
 
   let addManuallyCancel = document.querySelector(".cancel");
@@ -296,9 +303,19 @@ export function generalAddPickerListeners(skill) {
     let hours = document.querySelector(".hr");
 
     skill.startTimer();
-    skill.getEndTimeFromDuration(Number(hours.value));
-    skill.getDuration();
-    updateTotalValues(skill.getTotal(), skill.getTotalPastWeek());
+    skill.endTimer();
+    skill.pushUnitValue(Number(hours.value));
+
+    updateTotalValues(
+      Number(skill.getTotal()),
+      skill.getTotalPastWeek(),
+      skill.unit
+    );
+    let barValue = (Number(skill.getTotalPastWeek()) * 100) / 40;
+    if (barValue > 100) {
+      barValue = 100;
+    }
+    updateProgressBar(barValue, skill);
 
     hours.value = "00";
     pickerWindow.style.display = "none";
