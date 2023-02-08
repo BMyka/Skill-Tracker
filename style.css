@@ -269,6 +269,10 @@ form > button:hover {
   padding: 1.4rem;
   color: var(--color-white);
   background-color: var(--background-black-gray);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 /* Add time manually scroll */
 input::-webkit-outer-spin-button,
@@ -412,7 +416,32 @@ input::-webkit-inner-spin-button {
   border-bottom-color: var(--color-yellow);
   border-top-color: var(--color-yellow);
 }
+/* Progress bar */
 
+.animated-progress {
+  width: 95%;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid var(--color-dark-gray);
+  overflow: hidden;
+  position: relative;
+  align-self: center;
+}
+
+.animated-progress span {
+  height: 100%;
+  display: block;
+  width: 0;
+  color: var(--color-black-gray);
+  line-height: 25px;
+  position: absolute;
+  text-align: end;
+  padding-right: 5px;
+}
+
+.progress-yellow span {
+  background-color: #ffc51f;
+}
 /* Scroll bar */
 ::-webkit-scrollbar {
   overflow: scroll; /* or 'auto' */
@@ -461,6 +490,7 @@ input::-webkit-inner-spin-button {
     display: grid;
     place-items: center;
     gap: 0px;
+    margin: auto 0;
   }
   #content {
     flex: 9;
@@ -469,18 +499,18 @@ input::-webkit-inner-spin-button {
     font-size: 1rem;
   }
   body.skillView {
-    height: 120vh;
+    height: 100vh;
   }
   .main.mainIndividualSkill {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 20px;
   }
   .statistics {
+    flex: 2;
     width: 80%;
-    height: 30%;
-    height: 500px;
     margin: 0 0 5%;
   }
 
@@ -491,7 +521,7 @@ input::-webkit-inner-spin-button {
   .timer {
     flex: 1;
     gap: 10px;
-    height: 70%;
+    width: 70%;
     background: none;
     margin: 0;
     position: relative;
