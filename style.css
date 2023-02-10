@@ -11,6 +11,12 @@
   --color-red: #dc1b54;
   --aspect-ratio: 2;
 }
+@font-face {
+  font-family: "Kanit";
+  src: url("Kanit-Black.ttf") format("truetype");
+  font-style: normal;
+  font-weight: bold;
+}
 
 *,
 *::before,
@@ -22,6 +28,7 @@
 
 /* Layout */
 body {
+  font-family: "Kanit", sans-serif;
   font-size: inherit;
   background-color: var(--background-black);
   width: 100vw;
@@ -502,6 +509,9 @@ input::-webkit-inner-spin-button {
   }
   body.skillView {
     height: 100vh;
+  }
+  .skill {
+    width: 90%;
   }
   .main.mainIndividualSkill {
     display: flex;
