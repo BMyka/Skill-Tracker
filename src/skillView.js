@@ -5,6 +5,8 @@ import { generalAddPickerListeners } from "./timePick.js";
 import { generalPickerLogic } from "./timePick.js";
 import { addTimePickerListeners } from "./timePick.js";
 
+export let isTimerRunning = false;
+
 export function displaySkillViewGeneral(skill) {
   let header = document.querySelector(".header");
   header.textContent = skill.name;
@@ -295,6 +297,7 @@ export function displaySkillViewTime(skill) {
 
   // Start timer function
   start.addEventListener("click", function () {
+    isTimerRunning = true;
     start.style.display = "none";
     stop.style.display = "block";
     tracking.style.display = "flex";
@@ -310,6 +313,7 @@ export function displaySkillViewTime(skill) {
 
   // Stop timer function
   stop.addEventListener("click", function () {
+    isTimerRunning = false;
     start.style.display = "block";
     stop.style.display = "none";
     tracking.style.display = "none";
@@ -319,7 +323,6 @@ export function displaySkillViewTime(skill) {
     clearInterval(intervalId);
     timerValue.textContent = "0:00";
     time = 0;
-
     let barValue = ((Number(skill.getTotalPastWeek()) / 3600) * 100) / 40;
     if (barValue > 100) {
       barValue = 100;

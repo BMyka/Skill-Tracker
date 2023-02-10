@@ -3,6 +3,7 @@ import { updateTotalValues } from "./skillView";
 import { updateProgressBar } from "./skillView";
 import { drawChart } from "./skillView";
 import { getPast7Days } from "./skillView";
+import { isTimerRunning } from "./skillView";
 
 export function timePickerDisplay(skill) {
   const timePicker = document.createElement("div");
@@ -15,7 +16,7 @@ export function timePickerDisplay(skill) {
   if (skill.unit == "times") {
     timePickerHeader.textContent = "Add times";
   } else if (skill.unit == "hours") {
-    timePickerHeader.textContent = "Add time";
+    timePickerHeader.textContent = "Add hours | minutes";
   } else if (skill.unit == "kilometers") {
     timePickerHeader.textContent = "Add km";
   }
@@ -126,7 +127,10 @@ export function addTimePickerListeners(skill) {
 
   let addManuallyButton = document.querySelector(".addTimeManually");
   addManuallyButton.addEventListener("click", (e) => {
-    pickerWindow.style.display = "block";
+    console.log(isTimerRunning);
+    if (!isTimerRunning) {
+      pickerWindow.style.display = "block";
+    }
   });
 }
 
