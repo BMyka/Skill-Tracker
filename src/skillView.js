@@ -91,8 +91,8 @@ export function displaySkillViewGeneral(skill) {
       <button>Days</button><button>Weeks</button><button>Months</button><button>Years</button>
     `;
 
-  let chart = document.createElement("div");
-  chart.classList.add("chart");
+  let myChart = document.createElement("canvas");
+  myChart.id = "myChart";
 
   timeTracker.appendChild(last7Days);
   timeTracker.appendChild(totalTime);
@@ -101,7 +101,7 @@ export function displaySkillViewGeneral(skill) {
   timer.appendChild(goalProgress);
   timer.appendChild(timePickerDisplay(skill));
   statistics.appendChild(timePick);
-  statistics.appendChild(chart);
+  statistics.appendChild(myChart);
   main.appendChild(timer);
   main.appendChild(statistics);
 
@@ -111,6 +111,7 @@ export function displaySkillViewGeneral(skill) {
 
   generalPickerLogic();
   generalAddPickerListeners(skill);
+  drawChart(skill, getPast7Days(skill));
 }
 
 export function updateProgressBar(percent, skill) {
@@ -256,8 +257,8 @@ export function displaySkillViewTime(skill) {
       <button>Days</button><button>Weeks</button><button>Months</button><button>Years</button>
     `;
 
-  let chart = document.createElement("div");
-  chart.classList.add("chart");
+  let myChart = document.createElement("canvas");
+  myChart.id = "myChart";
 
   timeTracker.appendChild(last7Days);
   timeTracker.appendChild(totalTime);
@@ -271,7 +272,7 @@ export function displaySkillViewTime(skill) {
   timer.appendChild(timePickerDisplay(skill));
 
   statistics.appendChild(timePick);
-  statistics.appendChild(chart);
+  statistics.appendChild(myChart);
   main.appendChild(timer);
   main.appendChild(statistics);
 
@@ -324,5 +325,71 @@ export function displaySkillViewTime(skill) {
       barValue = 100;
     }
     updateProgressBar(barValue.toFixed(1), skill);
+    drawChart(skill, getPast7Days(skill));
+  });
+  drawChart(skill, getPast7Days(skill));
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function getPast7Days(skill) {
+  let past7Days = [];
+  let days = [];
+  let temp = 86400000;
+  for (let i = 1; i < 8; i++) {
+    let date = new Date();
+    temp = 86400000 * (7 - i);
+    date.setTime(date.getTime() - temp);
+    past7Days.push(skill.getTotalForDate(date));
+    days.push(
+      date.toLocaleDateString("default", { month: "short", day: "numeric" })
+    );
+  }
+  return {
+    past7Days,
+    days,
+  };
+}
+let counter = 0;
+export function drawChart(skill, data) {
+  if (counter > 0) {
+    window.myChart.destroy();
+  }
+  counter++;
+  var ctx = document.getElementById("myChart").getContext("2d");
+
+  window.myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: data.days,
+      datasets: [
+        {
+          label: `${capitalizeFirstLetter(skill.unit)}`,
+          data: data.past7Days,
+          backgroundColor: [
+            "#ffc51f",
+            "#ffc51f",
+            "#ffc51f",
+            "#ffc51f",
+            "#ffc51f",
+            "#ffc51f",
+            "#ffc51f",
+          ],
+        },
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
   });
 }

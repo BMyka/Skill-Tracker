@@ -59,6 +59,24 @@ function Skill(name, unit, total) {
     }
     return Number(this.total) + sum;
   };
+  this.getTotalForDate = function (date) {
+    let sum = 0;
+    let currentTime = date.getTime();
+    let oneDayAgo = currentTime - 86400000;
+
+    if (this.timeDurations.length) {
+      for (let i = 0; i < this.startTimes.length; i++) {
+        let startTime = this.startTimes[i].getTime();
+        if (startTime >= oneDayAgo && startTime < currentTime) {
+          sum += this.timeDurations[i];
+        }
+      }
+    }
+    if (this.unit === "hours") {
+      return (sum / 3600).toFixed(2);
+    }
+    return sum;
+  };
 }
 
 export default skills;
@@ -74,13 +92,6 @@ function addNewSkill(name, unit, total) {
 
 addNewSkill("The Odin Project", "hours", 110);
 addNewSkill("Running", "kilometers", 10);
-skills[0].startTimes[0] = new Date(
-  new Date().getTime() - 21 * 24 * 60 * 60 * 1000
-);
-skills[0].endTimes[0] = new Date(
-  new Date().getTime() - 14 * 24 * 60 * 60 * 1000
-);
-skills[0].getDuration();
 
 skills[1].startTimes[0] = new Date(
   new Date().getTime() - 21 * 24 * 60 * 60 * 1000
@@ -90,6 +101,30 @@ skills[1].endTimes[0] = new Date(
 );
 
 skills[1].pushUnitValue(5);
+//////////////////////////////////////
+skills[0].startTimes[0] = new Date(
+  new Date().getTime() - 21 * 24 * 60 * 60 * 1000
+);
+skills[0].endTimes[0] = new Date(
+  new Date().getTime() - 14 * 24 * 60 * 60 * 1000
+);
+skills[0].getDuration();
+
+skills[0].startTimes[1] = new Date(
+  new Date().getTime() - 6 * 24 * 60 * 60 * 1000
+);
+skills[0].endTimes[1] = new Date(
+  new Date().getTime() - 5.9 * 24 * 60 * 60 * 1000
+);
+skills[0].getDuration();
+
+skills[0].startTimes[2] = new Date(
+  new Date().getTime() - 1 * 24 * 60 * 60 * 1000
+);
+skills[0].endTimes[2] = new Date(
+  new Date().getTime() - 0.85 * 24 * 60 * 60 * 1000
+);
+skills[0].getDuration();
 
 export function displayAddNew() {
   let header = document.querySelector(".header");

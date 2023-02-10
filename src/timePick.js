@@ -1,6 +1,8 @@
 import { updateTotalTimeValue } from "./skillView";
 import { updateTotalValues } from "./skillView";
 import { updateProgressBar } from "./skillView";
+import { drawChart } from "./skillView";
+import { getPast7Days } from "./skillView";
 
 export function timePickerDisplay(skill) {
   const timePicker = document.createElement("div");
@@ -109,6 +111,8 @@ export function addTimePickerListeners(skill) {
       barValue = 100;
     }
     updateProgressBar(barValue.toFixed(1), skill);
+    console.log("lmaoooooooooooo");
+    drawChart(skill, getPast7Days(skill));
   });
 
   let addManuallyCancel = document.querySelector(".cancel");
@@ -316,7 +320,7 @@ export function generalAddPickerListeners(skill) {
       barValue = 100;
     }
     updateProgressBar(barValue, skill);
-
+    drawChart(skill, getPast7Days(skill));
     hours.value = "00";
     pickerWindow.style.display = "none";
   });
