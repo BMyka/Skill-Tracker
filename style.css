@@ -191,9 +191,11 @@ form > button:hover {
   position: relative;
 }
 .statistics {
+  width: 50%;
   margin-right: 8%;
 }
 .timer {
+  width: 50%;
   height: 70%;
   background: none;
   margin-left: 8%;
@@ -203,7 +205,7 @@ form > button:hover {
   flex: 1;
   display: flex;
 }
-.chart {
+#myChart {
   flex: 7;
 }
 
@@ -513,7 +515,10 @@ input::-webkit-inner-spin-button {
     width: 80%;
     margin: 0 0 5%;
   }
-
+  .time-picker {
+    width: 90%;
+    height: 90%;
+  }
   .timePick {
     flex: 1;
     display: flex;
